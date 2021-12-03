@@ -1,0 +1,14 @@
+<%- include( "partials/header") -%>
+<h1>About</h1>
+<%= t %>
+<%- include( "partials/footer") -%>
+
+<h1>Compose</h1>
+<form action="/compose" method="post">
+    <label for="title">Title</label>
+    <input type="text" class="form-control" id="title" name="messageTitle">
+    <label for="post">Post</label>
+    <input type="text" class="form-control" id="post" name="messagePost" rows="5" cols="40">
+
+    <button type="submit" name = "submit" style="color: aliceblue;background-color: blue;">Publish</button>
+</form>
