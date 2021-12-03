@@ -8,6 +8,7 @@
   },
   "author": "",
   "license": "ISC",
+  "homepage": "https://guptavishu1000.github.io/BlogProject.github.io/",
   "dependencies": {
     "body-parser": "^1.19.0",
     "ejs": "^2.7.4",
