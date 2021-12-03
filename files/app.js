@@ -54,6 +54,8 @@ app.get("/posts/:topic",function(req,res){
   
 })
 
-app.listen(3005,function(){
+app.listen(process.env.PORT,function(){
   console.log("port at 3000");
 });
+
+
