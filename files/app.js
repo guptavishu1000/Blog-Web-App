@@ -1,3 +1,4 @@
+//jshint esversion:6
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -11,51 +12,59 @@ const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rho
 const app = express();
 
 app.set('view engine', 'ejs');
-var posts = []
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-app.get("/",function(req,res){
-  // console.log(posts);
-  res.render("home",{s:homeStartingContent, t:aboutContent, u:contactContent, posts:posts})
-})
+let posts = [];
 
-app.get("/about",function(req,res){
-  res.render("about",{s:homeStartingContent, t:aboutContent, u:contactContent, posts:posts})
-})
-
-app.get("/contact",function(req,res){
-  res.render("contact",{s:homeStartingContent, t:aboutContent, u:contactContent, posts:posts})
-})
-app.get("/compose",function(req,res){
-  res.render("compose",{s:homeStartingContent, t:aboutContent, u:contactContent, posts:posts})
-})
-app.post("/compose",function(req,res){
-  const post = {
-  title : req.body.messageTitle,
-  content : req.body.message
-  };
-  posts.push(post);
-  res.redirect("/");
-})
-
-app.get("/posts/:topic",function(req,res){
-  posts.forEach(function(x){
-    var c = req.params.topic;
-    // console.log(_.lowerCase(c));
-    if(_.lowerCase(c) === _.lowerCase(x.title)){
-      console.log("Found");
-      res.render("post",{tit:x.title, mes:x.content});
-    }
-    else {
-      console.log("Not Found");
-    }
-  })
-  
-})
-
-app.listen(process.env.PORT || 3000,function(){
-  console.log("port at 3000");
+app.get("/", function(req, res){
+  res.render("home", {
+    startingContent: homeStartingContent,
+    posts: posts
+    });
 });
 
+app.get("/about", function(req, res){
+  res.render("about", {aboutContent: aboutContent});
+});
 
+app.get("/contact", function(req, res){
+  res.render("contact", {contactContent: contactContent});
+});
+
+app.get("/compose", function(req, res){
+  res.render("compose");
+});
+
+app.post("/compose", function(req, res){
+  const post = {
+    title: req.body.postTitle,
+    content: req.body.postBody
+  };
+
+  posts.push(post);
+
+  res.redirect("/");
+
+});
+
+app.get("/posts/:postName", function(req, res){
+  const requestedTitle = _.lowerCase(req.params.postName);
+
+  posts.forEach(function(post){
+    const storedTitle = _.lowerCase(post.title);
+
+    if (storedTitle === requestedTitle) {
+      res.render("post", {
+        title: post.title,
+        content: post.content
+      });
+    }
+  });
+
+});
+
+app.listen(3000, function() {
+  console.log("Server started on port 3000");
+});
